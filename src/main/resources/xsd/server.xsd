@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/server"
+           xmlns:tns="http://example.com/server"
+           elementFormDefault="qualified">
+
+    <!-- Définition du type 'server' qui correspond à votre classe com.example.demo.model.Server -->
+    <xs:complexType name="server">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="ipAddress" type="xs:string" minOccurs="0"/> <!-- minOccurs="0" car l'IP peut être optionnelle -->
+            <xs:element name="status" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Requête pour créer un serveur -->
+    <xs:element name="createServerRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <!-- Vous pouvez ajouter d'autres champs comme ipAddress si nécessaire pour la création -->
+                <!-- <xs:element name="ipAddress" type="xs:string" minOccurs="0"/> -->
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Réponse après la création d'un serveur -->
+    <xs:element name="createServerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="server" type="tns:server"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Requête pour lister tous les serveurs (vide, car listServers() ne prend pas de paramètre) -->
+    <xs:element name="listServersRequest">
+        <xs:complexType/>
+    </xs:element>
+
+    <!-- Réponse contenant la liste des serveurs -->
+    <xs:element name="listServersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="servers" type="tns:server" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Requête générique pour les actions nécessitant seulement un ID (start, stop, delete) -->
+    <xs:element name="serverIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Les réponses pour start/stop/delete ne semblent pas retourner de contenu spécifique dans votre code,
+         donc pas besoin de les définir ici, sauf si vous voulez des wrappers vides pour la conformité SOAP.
+         Par exemple, une réponse vide pour deleteServer:
+    <xs:element name="deleteServerResponse">
+        <xs:complexType/>
+    </xs:element>
+    -->
+
+</xs:schema>
+
